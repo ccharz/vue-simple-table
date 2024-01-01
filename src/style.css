@@ -1,0 +1,25 @@
+.vue-simple-table thead tr th > div {
+  display: flex;
+  align-items: between;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.vue-simple-table button,
+.vue-simple-table-pagination button {
+  cursor: pointer;
+}
+
+.vue-simple-table thead .sort > svg {
+  height: 1rem;
+}
+
+.vue-simple-table-pagination {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vue-simple-table-pagination svg {
+  height: 1rem;
+}
