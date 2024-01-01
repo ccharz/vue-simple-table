@@ -11,7 +11,7 @@ build-npm:
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - npm install
     - npm run build
-  cache:
+  artifacts:
     paths:
       - dist/
       - .npmrc
@@ -24,6 +24,10 @@ publish-npm:
   stage: deploy
   script:
     - npm publish
+  artifacts:
+    paths:
+      - dist/
+      - .npmrc
   only:
     - main
     - tags
