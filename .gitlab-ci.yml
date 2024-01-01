@@ -13,9 +13,8 @@ build-npm:
     - npm run build
   artifacts:
     paths:
-      - dist/
-      - .npmrc
-
+      - "dist/"
+      - ".npmrc"
   only:
     - main
     - tags
@@ -24,10 +23,12 @@ publish-npm:
   stage: deploy
   script:
     - npm publish
+  dependencies:
+    - build-npm
   artifacts:
     paths:
-      - dist/
-      - .npmrc
+      - "dist/"
+      - ".npmrc"
   only:
     - main
     - tags
