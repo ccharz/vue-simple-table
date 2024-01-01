@@ -1,5 +1,5 @@
 {
-  "name": "vue-simple-table",
+  "name": "@ccharz/vue-simple-table",
   "version": "0.0.1",
   "private": false,
   "type": "module",
