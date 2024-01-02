@@ -1,9 +1,9 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import { computed } from 'vue';
-import { TableColumn, TableData, TableStyling } from './vue-simple-table';
 import VueSimpleTablePagination, {
     PaginationProps,
 } from './VueSimpleTablePagination.vue';
+import { TableColumn, TableData, TableStyling } from '..';
 
 export interface Props {
     data: TableData<any>;

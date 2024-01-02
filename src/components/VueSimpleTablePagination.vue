@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TableData, TableStyling } from './vue-simple-table';
+import { TableData, TableStyling } from '..';
 
 export interface PaginationProps {
     data: TableData<any>;
