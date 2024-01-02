@@ -3,8 +3,8 @@ import { TableData, TableStyling } from '..';
 
 export interface PaginationProps {
     data: TableData<any>;
+    window: number;
     styling?: TableStyling;
-    window: number | boolean;
 }
 
 const props = withDefaults(defineProps<PaginationProps>(), {});

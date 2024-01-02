@@ -1,17 +1,16 @@
 {
   "name": "@ccharz/vue-simple-table",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "type": "module",
   "author": "Christian Charzewski",
   "scripts": {
     "dev": "vite",
     "tsc": "vue-tsc",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vue-tsc && vite build"
   },
   "peerDependencies": {
-    "vue": ">= 3.0.0 < 4"
+    "vue": ">=3.0.0 <4"
   },
   "devDependencies": {
     "@types/node": "^20.8.10",

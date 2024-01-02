@@ -1,23 +1,17 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import { computed } from 'vue';
-import VueSimpleTablePagination, {
-    PaginationProps,
-} from './VueSimpleTablePagination.vue';
+import VueSimpleTablePagination from './VueSimpleTablePagination.vue';
 import { TableColumn, TableData, TableStyling } from '..';
 
 export interface Props {
     data: TableData<any>;
     columns: TableColumn<any>[];
-    pagination?: PaginationProps;
+    pagination?: { window: number };
     styling?: TableStyling;
     sortedBy?: string[];
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    pagination: {
-        window: 2,
-    },
-});
+const props = withDefaults(defineProps<Props>(), {});
 
 const emit = defineEmits<{
     (e: 'sort', field: string): void;
@@ -174,9 +168,10 @@ const computedData = computed<Array<any>>(() =>
                 :class="props.styling?.footerContainerClass"
             >
                 <VueSimpleTablePagination
-                    v-if="props.pagination !== false"
+                    v-if="props.pagination"
                     :data="props.data"
                     :styling="props.styling"
+                    :window="props.pagination.window"
                     @pagination="emit('pagination', $event)"
                 >
                     <template v-for="(_, slot) in $slots" v-slot:[slot]>
