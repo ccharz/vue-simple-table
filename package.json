@@ -1,6 +1,6 @@
 {
   "name": "@ccharz/vue-simple-table",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "type": "module",
   "author": "Christian Charzewski",
@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "peerDependencies": {
-    "vue": "^3.3.0"
+    "vue": ">= 3.0.0 < 4"
   },
   "devDependencies": {
     "@types/node": "^20.8.10",

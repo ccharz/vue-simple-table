@@ -1,5 +1,6 @@
 import VueSimpleTable from './components/VueSimpleTable.vue';
 import VueSimpleTablePagination from './components/VueSimpleTable.vue';
+import './style.css';
 
 export interface TableStyling {
     tableClass: string;
