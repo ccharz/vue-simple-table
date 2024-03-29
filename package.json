@@ -1,6 +1,6 @@
 {
   "name": "@ccharz/vue-simple-table",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": false,
   "type": "module",
   "author": "Christian Charzewski",
@@ -36,8 +36,14 @@
   "module": "./dist/vue-simple-table.js",
   "exports": {
     ".": {
-      "import": "./dist/vue-simple-table.js",
-      "require": "./dist/vue-simple-table.umd.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/vue-simple-table.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/vue-simple-table.umd.cjs"
+      }
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
