@@ -3,15 +3,16 @@ import { computed } from 'vue';
 import VueSimpleTablePagination from './VueSimpleTablePagination.vue';
 import { TableColumn, TableData, TableStyling } from '..';
 
-export interface Props {
-    data: TableData<any>;
-    columns: TableColumn<any>[];
-    pagination?: { window: number };
-    styling?: TableStyling;
-    sortedBy?: string[];
-}
-
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(
+    defineProps<{
+        data: TableData<T>;
+        columns: TableColumn<T>[];
+        pagination?: { window: number };
+        styling?: TableStyling;
+        sortedBy?: string[];
+    }>(),
+    {},
+);
 
 const emit = defineEmits<{
     (e: 'sort', field: string): void;
@@ -21,10 +22,10 @@ const emit = defineEmits<{
     ): void;
 }>();
 
-const computedData = computed<Array<any>>(() =>
-    props.data.data.map((row: any) => ({
+const computedData = computed<Array<T>>(() =>
+    props.data.data.map((row: T) => ({
         ...row,
-        ...props.columns.reduce((obj, column: TableColumn<any>) => {
+        ...props.columns.reduce((obj, column: TableColumn<T>) => {
             return {
                 ...obj,
                 [column.id]: column.value ? column.value(row) : row[column.id],
