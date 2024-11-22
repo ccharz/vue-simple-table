@@ -4,6 +4,7 @@ import {
     TableData,
     TableStyling,
 } from '../src/components/vue-simple-table';
+import { PaginationTarget } from '../src/components/VueSimpleTablePagination.vue';
 import { VueSimpleTable } from '../src/index';
 import '../src/style.css';
 
@@ -83,6 +84,10 @@ const exampleOne = {
         ],
     },
 };
+
+function onPagination(target: PaginationTarget) {
+    console.log('Pagination requested: ' + target);
+}
 </script>
 <template>
     <main>
@@ -92,6 +97,7 @@ const exampleOne = {
                 :columns="exampleOne.columns"
                 :data="exampleOne.data"
                 :styling="tailwindStyling"
+                @pagination="onPagination"
             >
                 <template #header-column(age)="{ column }">
                     <div></div>

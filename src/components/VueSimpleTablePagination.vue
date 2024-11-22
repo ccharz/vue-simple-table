@@ -7,13 +7,12 @@ export interface PaginationProps {
     styling?: TableStyling;
 }
 
+export type PaginationTarget = 'first' | 'last' | 'next' | 'prev' | number;
+
 const props = withDefaults(defineProps<PaginationProps>(), {});
 
 const emit = defineEmits<{
-    (
-        e: 'pagination',
-        target: 'first' | 'last' | 'next' | 'prev' | number,
-    ): void;
+    (e: 'pagination', target: PaginationTarget): void;
 }>();
 </script>
 <template>

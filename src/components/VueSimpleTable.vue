@@ -1,6 +1,8 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import { computed } from 'vue';
-import VueSimpleTablePagination from './VueSimpleTablePagination.vue';
+import VueSimpleTablePagination, {
+    PaginationTarget,
+} from './VueSimpleTablePagination.vue';
 import { TableColumn, TableData, TableStyling } from '..';
 
 const props = withDefaults(
@@ -16,10 +18,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
     (e: 'sort', field: string): void;
-    (
-        e: 'pagination',
-        target: 'first' | 'last' | 'next' | 'prev' | number,
-    ): void;
+    (e: 'pagination', target: PaginationTarget): void;
 }>();
 
 const computedData = computed<Array<T>>(() =>
@@ -140,7 +139,7 @@ const computedData = computed<Array<T>>(() =>
             </thead>
             <tbody>
                 <tr
-                    v-for="row in computedData"
+                    v-for="(row, rowIndex) in computedData"
                     :class="props.styling?.rowClass"
                 >
                     <td
@@ -149,7 +148,10 @@ const computedData = computed<Array<T>>(() =>
                             column.columnClass || props.styling?.columnClass
                         "
                     >
-                        <slot :name="`column(${column.id})`" :row="row">
+                        <slot
+                            :name="`column(${column.id})`"
+                            :row="props.data.data[rowIndex]"
+                        >
                             {{ row[column.id] }}
                         </slot>
                     </td>
@@ -158,7 +160,10 @@ const computedData = computed<Array<T>>(() =>
                         v-if="!!$slots['row-action']"
                         :class="props.styling?.actionColumnClass"
                     >
-                        <slot name="row-action" :row="row" />
+                        <slot
+                            name="row-action"
+                            :row="props.data.data[rowIndex]"
+                        />
                     </td>
                 </tr>
             </tbody>
