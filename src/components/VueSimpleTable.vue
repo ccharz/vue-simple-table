@@ -35,8 +35,8 @@ const computedData = computed<Array<T>>(() =>
 </script>
 
 <template>
-    <div class="vue-simple-table">
-        <table class="vue-simple-table" :class="props.styling?.tableClass">
+    <div class="vue-simple-table" :class="props.styling?.tableContainerClass">
+        <table :class="props.styling?.tableClass">
             <thead :class="props.styling?.tableHeadClass">
                 <tr>
                     <th

@@ -1,14 +1,13 @@
 # Vue Simple Table
 
-Basic data table structure component for vue 3 
+Basic data table structure component for vue 3
 
 ## Installation
 
-Install the component
-`npm install @ccharz/vue-simple-table`
-
+Install the component `npm install @ccharz/vue-simple-table`
 
 To import type definitions and component use
+
 ```js
 import {
     TableColumn,
@@ -18,7 +17,6 @@ import {
 } from '@ccharz/vue-simple-table';
 import '@ccharz/vue-simple-table/dist/style.css';
 ```
-
 
 ## Example
 
@@ -34,6 +32,7 @@ Look at the example in the sandbox directory
 
 ```js
 const tailwindStyling: TableStyling = {
+    tableContainerClass: 'bg-gray-300',
     tableClass: 'w-full text-sm text-left text-gray-500',
     tableHeadClass: 'text-xs text-gray-700 uppercase bg-gray-50',
     rowClass: 'bg-white border-b last:border-0 hover:bg-gray-100 relative',
@@ -46,9 +45,7 @@ const tailwindStyling: TableStyling = {
 };
 ```
 
-
-
 ## Commands
 
 `npm run build` Build for production  
-`npm run dev` Compile for local dev  
+`npm run dev` Compile for local dev

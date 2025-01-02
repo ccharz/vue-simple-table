@@ -3,6 +3,7 @@ import VueSimpleTablePagination from './components/VueSimpleTable.vue';
 import './style.css';
 
 export interface TableStyling {
+    tableContainerClass?: string;
     tableClass: string;
     tableHeadClass: string;
     rowClass: string;
