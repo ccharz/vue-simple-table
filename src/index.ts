@@ -12,6 +12,7 @@ export interface TableStyling {
     actionColumnClass: string;
     paginationButtonClass: string;
     footerContainerClass: string;
+    activePaginationButtonClass?: string;
 }
 
 export interface TableColumn<T> {

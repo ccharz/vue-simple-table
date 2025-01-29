@@ -25,6 +25,7 @@ const tailwindStyling: TableStyling = {
     paginationButtonClass:
         'text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded text-sm px-3 py-1.5 disabled:cursor-not-allowed',
     footerContainerClass: 'mt-5 flex justify-center',
+    activePaginationButtonClass: 'font-bold',
 };
 
 const exampleOne = {
@@ -62,6 +63,15 @@ const exampleOne = {
             next: true,
             prev: true,
         },
+        meta: {
+            current_page: 3,
+            from: 0,
+            to: 1,
+            total: 3,
+            path: '',
+            per_page: 1,
+            last_page: 10,
+        },
         data: [
             {
                 active: true,
@@ -97,6 +107,7 @@ function onPagination(target: PaginationTarget) {
                 :columns="exampleOne.columns"
                 :data="exampleOne.data"
                 :styling="tailwindStyling"
+                :pagination="{ window: 2 }"
                 @pagination="onPagination"
             >
                 <template #header-column(age)="{ column }">
