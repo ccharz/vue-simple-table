@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {
+    VueSimpleTable,
+    VueSimpleTablePagination,
     TableColumn,
     TableData,
     TableStyling,
-} from '../src/components/vue-simple-table';
-import { PaginationTarget } from '../src/components/VueSimpleTablePagination.vue';
-import { VueSimpleTable } from '../src/index';
+    PaginationTarget,
+} from '../src/index';
 import '../src/style.css';
 
 interface ExampleRow {
@@ -151,6 +152,12 @@ function onPagination(target: PaginationTarget) {
                     </svg>
                 </template>
             </VueSimpleTable>
+        </div>
+
+        <div>
+            <h2>Pagination only</h2>
+
+            <VueSimpleTablePagination :data="exampleOne.data" />
         </div>
     </main>
 </template>

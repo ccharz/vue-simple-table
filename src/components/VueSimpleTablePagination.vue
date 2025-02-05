@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { TableData, TableStyling } from '..';
+import { TableData, TableStyling, PaginationTarget } from '..';
 
 export interface PaginationProps {
     data: TableData<any>;
     window?: number;
     styling?: TableStyling;
 }
-
-export type PaginationTarget = 'first' | 'last' | 'next' | 'prev' | number;
 
 const props = withDefaults(defineProps<PaginationProps>(), {
     showPageWindow: false,

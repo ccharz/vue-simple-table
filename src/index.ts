@@ -2,6 +2,8 @@ import VueSimpleTable from './components/VueSimpleTable.vue';
 import VueSimpleTablePagination from './components/VueSimpleTablePagination.vue';
 import './style.css';
 
+export type PaginationTarget = 'first' | 'last' | 'next' | 'prev' | number;
+
 export interface TableStyling {
     tableContainerClass?: string;
     tableClass: string;
@@ -48,4 +50,5 @@ export interface TableData<T> {
     };
 }
 
-export { VueSimpleTable, VueSimpleTablePagination };
+export { default as VueSimpleTable } from './components/VueSimpleTable.vue';
+export { default as VueSimpleTablePagination } from './components/VueSimpleTablePagination.vue';
