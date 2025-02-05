@@ -1,5 +1,3 @@
-import VueSimpleTable from './components/VueSimpleTable.vue';
-import VueSimpleTablePagination from './components/VueSimpleTablePagination.vue';
 import './style.css';
 
 export type PaginationTarget = 'first' | 'last' | 'next' | 'prev' | number;

@@ -1,9 +1,7 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import { computed } from 'vue';
-import VueSimpleTablePagination, {
-    PaginationTarget,
-} from './VueSimpleTablePagination.vue';
-import { TableColumn, TableData, TableStyling } from '..';
+import VueSimpleTablePagination from './VueSimpleTablePagination.vue';
+import { TableColumn, TableData, TableStyling, PaginationTarget } from '..';
 
 const props = withDefaults(
     defineProps<{
