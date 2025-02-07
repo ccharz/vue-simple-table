@@ -1,6 +1,6 @@
 {
   "name": "@ccharz/vue-simple-table",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "private": false,
   "type": "module",
   "author": "Christian Charzewski",
@@ -26,8 +26,8 @@
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-dts": "^3.6.3",
-    "vue-tsc": "^1.8.5",
-    "vue": "^3.3.0"
+    "vue": "^3.3.0",
+    "vue-tsc": "^1.8.5"
   },
   "files": [
     "dist"

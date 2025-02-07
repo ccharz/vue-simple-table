@@ -1,13 +1,16 @@
-.vue-simple-table thead tr th > div {
-  display: flex;
-  align-items: between;
-  justify-content: space-between;
-  width: 100%;
+.vue-simple-table thead tr th > button {
+  display: inline-flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
-.vue-simple-table button,
-.vue-simple-table-pagination button {
+
+.vue-simple-table thead button {
+  cursor: auto;
+  text-align: left;
+}
+
+.vue-simple-table thead button.sortable {
   cursor: pointer;
 }
 

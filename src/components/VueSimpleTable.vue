@@ -7,15 +7,16 @@ const props = withDefaults(
     defineProps<{
         data: TableData<T>;
         columns: TableColumn<T>[];
-        pagination?: { window: number };
+        pagination?: { window?: number };
         styling?: TableStyling;
-        sortedBy?: string[];
+        sortedBy?: string[] | null;
     }>(),
     {},
 );
 
 const emit = defineEmits<{
-    (e: 'sort', field: string): void;
+    (e: 'rowClick', row: T, index: number): void;
+    (e: 'sort', field: string, column: TableColumn<T>): void;
     (e: 'pagination', target: PaginationTarget): void;
 }>();
 
@@ -30,6 +31,14 @@ const computedData = computed<Array<T>>(() =>
         }, {}),
     })),
 );
+
+function sortByColumn(column: TableColumn<T>): void {
+    if (column.sort && !props.sortedBy?.includes(column.sort)) {
+        emit('sort', column.sort, column);
+    } else if (column.sort && props.sortedBy?.includes(column.sort)) {
+        emit('sort', '-' + column.sort, column);
+    }
+}
 </script>
 
 <template>
@@ -45,28 +54,43 @@ const computedData = computed<Array<T>>(() =>
                             props.styling?.headerColumnClass
                         "
                     >
-                        <div>
-                            <slot
-                                :name="`header-column(${column.id})`"
-                                :column="column"
+                        <slot
+                            :name="`header-column(${column.id})`"
+                            :column="column"
+                        >
+                            <span v-if="!column.sort">
+                                {{ column.label }}
+                            </span>
+                            <button
+                                v-else
+                                type="button"
+                                class="sort"
+                                :class="{
+                                    sortable: !!column.sort,
+                                    'sort-asc':
+                                        column.sort &&
+                                        props.sortedBy?.includes(
+                                            '-' + column.sort,
+                                        ),
+                                    'sort-desc':
+                                        column.sort &&
+                                        props.sortedBy?.includes(column.sort),
+                                }"
+                                @click="sortByColumn(column)"
                             >
                                 <span>
                                     {{ column.label }}
                                 </span>
-                            </slot>
 
-                            <template v-if="column.sort">
-                                <button
-                                    v-if="
-                                        props.sortedBy?.includes(
-                                            '-' + column.sort,
-                                        )
-                                    "
-                                    type="button"
-                                    class="sort sort-asc"
-                                    @click="emit('sort', column.sort)"
-                                >
-                                    <slot name="sortAsc">
+                                <template v-if="column.sort">
+                                    <slot
+                                        v-if="
+                                            props.sortedBy?.includes(
+                                                '-' + column.sort,
+                                            )
+                                        "
+                                        name="sortAsc"
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -81,16 +105,15 @@ const computedData = computed<Array<T>>(() =>
                                             />
                                         </svg>
                                     </slot>
-                                </button>
-                                <button
-                                    v-else-if="
-                                        props.sortedBy?.includes(column.sort)
-                                    "
-                                    type="button"
-                                    class="sort sort-desc"
-                                    @click="emit('sort', '-' + column.sort)"
-                                >
-                                    <slot name="sortDesc">
+
+                                    <slot
+                                        v-else-if="
+                                            props.sortedBy?.includes(
+                                                column.sort,
+                                            )
+                                        "
+                                        name="sortDesc"
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -105,14 +128,8 @@ const computedData = computed<Array<T>>(() =>
                                             />
                                         </svg>
                                     </slot>
-                                </button>
-                                <button
-                                    v-else
-                                    type="button"
-                                    class="sort"
-                                    @click="emit('sort', column.sort)"
-                                >
-                                    <slot name="sort">
+
+                                    <slot v-else name="sort">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="h-6 w-6"
@@ -128,9 +145,9 @@ const computedData = computed<Array<T>>(() =>
                                             />
                                         </svg>
                                     </slot>
-                                </button>
-                            </template>
-                        </div>
+                                </template>
+                            </button>
+                        </slot>
                     </th>
                     <th v-if="!!$slots['row-action']">&nbsp;</th>
                 </tr>
@@ -139,6 +156,7 @@ const computedData = computed<Array<T>>(() =>
                 <tr
                     v-for="(row, rowIndex) in computedData"
                     :class="props.styling?.rowClass"
+                    @click="emit('rowClick', row, rowIndex)"
                 >
                     <td
                         v-for="column in props.columns"

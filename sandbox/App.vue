@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import {
     VueSimpleTable,
     VueSimpleTablePagination,
@@ -26,7 +27,8 @@ const tailwindStyling: TableStyling = {
     paginationButtonClass:
         'text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded text-sm px-3 py-1.5 disabled:cursor-not-allowed',
     footerContainerClass: 'mt-5 flex justify-center',
-    activePaginationButtonClass: 'font-bold',
+    activePaginationButtonClass:
+        'cursor-auto text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-bold rounded text-sm px-3 py-1.5 disabled:cursor-not-allowed',
 };
 
 const exampleOne = {
@@ -54,7 +56,8 @@ const exampleOne = {
             id: 'age',
             label: 'Age',
             sort: 'age',
-            columnClass: 'text-center ' + tailwindStyling.columnClass,
+            columnClass: 'text-right ' + tailwindStyling.columnClass,
+            headerClass: 'text-right ' + tailwindStyling.headerColumnClass,
         },
     ],
     data: <TableData<ExampleRow>>{
@@ -96,28 +99,49 @@ const exampleOne = {
     },
 };
 
+const messageTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
+const message = ref<string | null>(null);
+const sortedBy = ref<string[] | null>(null);
+
+function showMessage(value: string): void {
+    if (messageTimeout.value) {
+        clearTimeout(messageTimeout.value);
+    }
+
+    message.value = value;
+
+    messageTimeout.value = setTimeout(() => (message.value = null), 3000);
+}
+
 function onPagination(target: PaginationTarget) {
-    console.log('Pagination requested: ' + target);
+    showMessage('Pagination requested: ' + target);
+}
+
+function onRowClick(row, index) {
+    showMessage('Clicked on row: ' + index);
+}
+
+function onSort(sort, column) {
+    showMessage('Clicked on sort: ' + sort);
+    sortedBy.value = [sort];
 }
 </script>
 <template>
     <main>
-        <h1>Vue Simple Table</h1>
+        <h1 class="text-center text-2xl font-bold my-2">Vue Simple Table</h1>
         <div class="px-2 py-4">
             <VueSimpleTable
                 :columns="exampleOne.columns"
                 :data="exampleOne.data"
                 :styling="tailwindStyling"
+                :sorted-by="sortedBy"
                 :pagination="{ window: 2 }"
                 @pagination="onPagination"
+                @row-click="onRowClick"
+                @sort="onSort"
             >
-                <template #header-column(age)="{ column }">
-                    <div></div>
-                    <div>
-                        <strong>
-                            {{ column.label }}
-                        </strong>
-                    </div>
+                <template #header-column(active)="{ column }">
+                    <span><i>Header Slot</i> {{ column.label }}</span>
                 </template>
                 <template #column(active)="{ row }">
                     <svg
@@ -152,6 +176,12 @@ function onPagination(target: PaginationTarget) {
                     </svg>
                 </template>
             </VueSimpleTable>
+        </div>
+        <div
+            v-if="message"
+            class="bg-gray-200 text-center border p-2 border-black m-1"
+        >
+            {{ message }}
         </div>
 
         <div>

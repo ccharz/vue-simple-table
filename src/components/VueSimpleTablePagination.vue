@@ -9,7 +9,6 @@ export interface PaginationProps {
 }
 
 const props = withDefaults(defineProps<PaginationProps>(), {
-    showPageWindow: false,
     window: undefined,
 });
 
@@ -19,8 +18,9 @@ const emit = defineEmits<{
 
 const range = computed<number[] | undefined>(() =>
     typeof props.window === 'number' &&
+    props.window > 0 &&
     props.data.meta?.current_page &&
-    props.data.meta.last_page
+    props.data.meta?.last_page
         ? [
               Math.max(1, props.data.meta.current_page - props.window),
               Math.min(
@@ -89,8 +89,7 @@ const range = computed<number[] | undefined>(() =>
                         props.data.meta.current_page === 1
                             ? props.styling?.activePaginationButtonClass ??
                               'active'
-                            : '',
-                        props.styling?.paginationButtonClass ?? '',
+                            : props.styling?.paginationButtonClass ?? '',
                     ]"
                     @click="emit('pagination', 1)"
                 >
@@ -115,8 +114,8 @@ const range = computed<number[] | undefined>(() =>
                         props.data.meta.current_page === range[0] + page - 1
                             ? props.styling?.activePaginationButtonClass ??
                               'active'
-                            : '',
-                        props.styling?.paginationButtonClass ?? '',
+                            : props.styling?.paginationButtonClass ?? '',
+                        ,
                     ]"
                     @click="emit('pagination', range[0] + page - 1)"
                 >
@@ -142,8 +141,7 @@ const range = computed<number[] | undefined>(() =>
                         props.data.meta.last_page
                             ? props.styling?.activePaginationButtonClass ??
                               'active'
-                            : '',
-                        props.styling?.paginationButtonClass ?? '',
+                            : props.styling?.paginationButtonClass ?? '',
                     ]"
                     @click="emit('pagination', props.data.meta.last_page)"
                 >
