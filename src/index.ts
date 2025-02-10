@@ -22,6 +22,7 @@ export interface TableColumn<T> {
     headerClass?: string | string[];
     value?: (row: T) => string | null;
     sort?: string | null;
+    hidden?: boolean;
 }
 
 export interface TableData<T> {

@@ -10,6 +10,7 @@ const props = withDefaults(
         pagination?: { window?: number };
         styling?: TableStyling;
         sortedBy?: string[] | null;
+        noRecordsText?: string;
     }>(),
     {},
 );
@@ -46,109 +47,113 @@ function sortByColumn(column: TableColumn<T>): void {
         <table :class="props.styling?.tableClass">
             <thead :class="props.styling?.tableHeadClass">
                 <tr>
-                    <th
-                        v-for="column in props.columns"
-                        scope="col"
-                        :class="
-                            column.headerClass ||
-                            props.styling?.headerColumnClass
-                        "
-                    >
-                        <slot
-                            :name="`header-column(${column.id})`"
-                            :column="column"
+                    <template v-for="column in props.columns">
+                        <th
+                            v-if="!column.hidden"
+                            :class="
+                                column.headerClass ||
+                                props.styling?.headerColumnClass
+                            "
+                            scope="col"
                         >
-                            <span v-if="!column.sort">
-                                {{ column.label }}
-                            </span>
-                            <button
-                                v-else
-                                type="button"
-                                class="sort"
-                                :class="{
-                                    sortable: !!column.sort,
-                                    'sort-asc':
-                                        column.sort &&
-                                        props.sortedBy?.includes(
-                                            '-' + column.sort,
-                                        ),
-                                    'sort-desc':
-                                        column.sort &&
-                                        props.sortedBy?.includes(column.sort),
-                                }"
-                                @click="sortByColumn(column)"
+                            <slot
+                                :name="`header-column(${column.id})`"
+                                :column="column"
                             >
-                                <span>
+                                <span v-if="!column.sort">
                                     {{ column.label }}
                                 </span>
-
-                                <template v-if="column.sort">
-                                    <slot
-                                        v-if="
+                                <button
+                                    v-else
+                                    type="button"
+                                    class="sort"
+                                    :class="{
+                                        sortable: !!column.sort,
+                                        'sort-asc':
+                                            column.sort &&
                                             props.sortedBy?.includes(
                                                 '-' + column.sort,
-                                            )
-                                        "
-                                        name="sortAsc"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M7 11l5-5m0 0l5 5m-5-5v12"
-                                            />
-                                        </svg>
-                                    </slot>
-
-                                    <slot
-                                        v-else-if="
+                                            ),
+                                        'sort-desc':
+                                            column.sort &&
                                             props.sortedBy?.includes(
                                                 column.sort,
-                                            )
-                                        "
-                                        name="sortDesc"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                                            />
-                                        </svg>
-                                    </slot>
+                                            ),
+                                    }"
+                                    @click="sortByColumn(column)"
+                                >
+                                    <span>
+                                        {{ column.label }}
+                                    </span>
 
-                                    <slot v-else name="sort">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-6 w-6"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            stroke-width="2"
+                                    <template v-if="column.sort">
+                                        <slot
+                                            v-if="
+                                                props.sortedBy?.includes(
+                                                    '-' + column.sort,
+                                                )
+                                            "
+                                            name="sortAsc"
                                         >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-                                            />
-                                        </svg>
-                                    </slot>
-                                </template>
-                            </button>
-                        </slot>
-                    </th>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M7 11l5-5m0 0l5 5m-5-5v12"
+                                                />
+                                            </svg>
+                                        </slot>
+
+                                        <slot
+                                            v-else-if="
+                                                props.sortedBy?.includes(
+                                                    column.sort,
+                                                )
+                                            "
+                                            name="sortDesc"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M17 13l-5 5m0 0l-5-5m5 5V6"
+                                                />
+                                            </svg>
+                                        </slot>
+
+                                        <slot v-else name="sort">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-6 w-6"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                                                />
+                                            </svg>
+                                        </slot>
+                                    </template>
+                                </button>
+                            </slot>
+                        </th>
+                    </template>
                     <th v-if="!!$slots['row-action']">&nbsp;</th>
                 </tr>
             </thead>
@@ -158,19 +163,21 @@ function sortByColumn(column: TableColumn<T>): void {
                     :class="props.styling?.rowClass"
                     @click="emit('rowClick', row, rowIndex)"
                 >
-                    <td
-                        v-for="column in props.columns"
-                        :class="
-                            column.columnClass || props.styling?.columnClass
-                        "
-                    >
-                        <slot
-                            :name="`column(${column.id})`"
-                            :row="props.data.data[rowIndex]"
+                    <template v-for="column in props.columns">
+                        <td
+                            v-if="!column.hidden"
+                            :class="
+                                column.columnClass || props.styling?.columnClass
+                            "
                         >
-                            {{ row[column.id] }}
-                        </slot>
-                    </td>
+                            <slot
+                                :name="`column(${column.id})`"
+                                :row="props.data.data[rowIndex]"
+                            >
+                                {{ row[column.id] }}
+                            </slot>
+                        </td>
+                    </template>
 
                     <td
                         v-if="!!$slots['row-action']"
@@ -182,6 +189,18 @@ function sortByColumn(column: TableColumn<T>): void {
                         />
                     </td>
                 </tr>
+                <slot v-if="props.data.data.length === 0" name="no-records">
+                    <tr v-if="props.noRecordsText" class="no-records">
+                        <td
+                            :colspan="
+                                props.columns.length +
+                                (!!$slots['row-action'] ? 1 : 0)
+                            "
+                        >
+                            {{ props.noRecordsText }}
+                        </td>
+                    </tr>
+                </slot>
             </tbody>
         </table>
         <slot name="footer">

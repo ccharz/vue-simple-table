@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import {
     VueSimpleTable,
     VueSimpleTablePagination,
@@ -31,7 +31,11 @@ const tailwindStyling: TableStyling = {
         'cursor-auto text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-bold rounded text-sm px-3 py-1.5 disabled:cursor-not-allowed',
 };
 
-const exampleOne = {
+const messageTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
+const message = ref<string | null>(null);
+const sortedBy = ref<string[] | null>(null);
+
+const exampleOne = computed(() => ({
     columns: <TableColumn<ExampleRow>[]>[
         {
             id: 'active',
@@ -97,11 +101,7 @@ const exampleOne = {
             },
         ],
     },
-};
-
-const messageTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
-const message = ref<string | null>(null);
-const sortedBy = ref<string[] | null>(null);
+}));
 
 function showMessage(value: string): void {
     if (messageTimeout.value) {
